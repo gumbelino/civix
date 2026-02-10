@@ -634,8 +634,8 @@
           </div>
           
           <div class="form-group">
-            <label for="contact-message">Message *</label>
-            <textarea id="contact-message" rows="5" required placeholder="Tell us about your participatory process and how we can help..."></textarea>
+            <label for="contact-details">Project Details *</label>
+            <textarea id="contact-details" rows="5" required placeholder="Tell us about your participatory process, goals, timeline, and any specific challenges..."></textarea>
           </div>
           
           <button type="submit" class="submit-button">Send Message</button>
@@ -960,15 +960,42 @@
           
           const name = document.getElementById("contact-name").value;
           const email = document.getElementById("contact-email").value;
-          const organization = document.getElementById("contact-organization").value;
+          const organization = document.getElementById("contact-organization").value || "my organization";
           const phone = document.getElementById("contact-phone").value;
-          const message = document.getElementById("contact-message").value;
+          const details = document.getElementById("contact-details").value;
           
-          // In a real application, this would send to a backend
-          console.log("Contact form submitted:", { name, email, organization, phone, message });
+          // Get current state values
+          const participants = state.target.toLocaleString();
+          const population = state.population.toLocaleString();
+          const budget = "CHF " + state.budget.toLocaleString();
           
-          alert("Thank you for your message! Our team will be in touch shortly.");
-          form.reset();
+          // Create email body
+          const emailBody = `Hi civix team!
+
+My name is ${name} from ${organization}. I am hoping to get ${participants} participants in my participatory process. My population is ${population} and my budget is ${budget}.
+
+Here are more details of my project:
+
+${details}
+
+When are you available to meet?
+
+Best,
+${name}`;
+          
+          // Create email subject
+          const emailSubject = `Participatory Process Consultation Request - ${name}`;
+          
+          // Create mailto link
+          const mailtoLink = `mailto:gumbelin+civix@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+          
+          // Open email client
+          window.location.href = mailtoLink;
+          
+          // Reset form after a short delay
+          setTimeout(() => {
+            form.reset();
+          }, 500);
         });
       }
       
