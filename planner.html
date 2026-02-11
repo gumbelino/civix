@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -41,6 +41,7 @@
         gap: 16px;
         margin-bottom: 48px;
         animation: fadeIn 0.8s ease-in;
+        flex-wrap: wrap;
       }
 
       .logo {
@@ -53,6 +54,32 @@
         font-size: 32px;
         font-weight: 400;
         letter-spacing: 1px;
+        flex: 1;
+      }
+
+      .header-controls {
+        display: flex;
+        gap: 12px;
+      }
+
+      .selector {
+        font-family: "DM Sans", sans-serif;
+        font-size: 14px;
+        padding: 8px 12px;
+        border: 1px solid #e0e0e0;
+        border-radius: 2px;
+        background: white;
+        cursor: pointer;
+        transition: border-color 0.2s;
+      }
+
+      .selector:hover {
+        border-color: #e31837;
+      }
+
+      .selector:focus {
+        outline: none;
+        border-color: #e31837;
       }
 
       .inputs-section {
@@ -95,7 +122,7 @@
 
       .input-group input:focus {
         outline: none;
-        border-color: #E31837;
+        border-color: #e31837;
       }
 
       .summary {
@@ -128,7 +155,7 @@
       }
 
       .summary-value.highlight {
-        color: #E31837;
+        color: #e31837;
       }
 
       .tactics-grid {
@@ -143,11 +170,29 @@
         border: 1px solid #e0e0e0;
         padding: 24px;
         transition: all 0.3s ease;
+        position: relative;
+        cursor: pointer;
       }
 
       .tactic-card:hover {
-        border-color: #E31837;
+        border-color: #e31837;
         box-shadow: 0 4px 12px rgba(227, 24, 55, 0.1);
+        transform: translateY(-2px);
+      }
+
+      .clickable-hint {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        color: #999;
+        margin-top: 12px;
+        opacity: 0.7;
+        transition: color 0.3s ease;
+      }
+
+      .tactic-card:hover .clickable-hint {
+        color: #e31837;
       }
 
       .tactic-header {
@@ -166,7 +211,7 @@
       .tactic-cost {
         font-size: 14px;
         font-weight: 500;
-        color: #E31837;
+        color: #e31837;
       }
 
       .dial-container {
@@ -185,7 +230,7 @@
 
       .dial-fill {
         height: 100%;
-        background: linear-gradient(90deg, #E31837 0%, #ff4d6d 100%);
+        background: linear-gradient(90deg, #e31837 0%, #ff4d6d 100%);
         border-radius: 4px;
         transition: width 0.3s ease;
       }
@@ -208,7 +253,7 @@
         appearance: none;
         width: 20px;
         height: 20px;
-        background: #E31837;
+        background: #e31837;
         cursor: pointer;
         border-radius: 50%;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -217,7 +262,7 @@
       .dial-slider::-moz-range-thumb {
         width: 20px;
         height: 20px;
-        background: #E31837;
+        background: #e31837;
         cursor: pointer;
         border-radius: 50%;
         border: none;
@@ -249,7 +294,7 @@
       }
 
       .optimize-button {
-        background: #E31837;
+        background: #e31837;
         color: white;
         border: none;
         padding: 12px 24px;
@@ -331,7 +376,7 @@
       .form-group input:focus,
       .form-group textarea:focus {
         outline: none;
-        border-color: #E31837;
+        border-color: #e31837;
       }
 
       .form-group textarea {
@@ -354,7 +399,7 @@
       }
 
       .submit-button:hover {
-        background: #E31837;
+        background: #e31837;
         box-shadow: 0 4px 12px rgba(227, 24, 55, 0.3);
       }
 
@@ -405,7 +450,7 @@
       }
 
       .modal-close:hover {
-        color: #E31837;
+        color: #e31837;
       }
 
       #modal-title {
@@ -428,7 +473,7 @@
         letter-spacing: 0.5px;
         margin-top: 24px;
         margin-bottom: 12px;
-        color: #E31837;
+        color: #e31837;
       }
 
       #modal-body p {
@@ -473,11 +518,20 @@
 
         h1 {
           font-size: 24px;
+          width: 100%;
+          order: 2;
         }
 
         .logo {
           width: 48px;
           height: 48px;
+          order: 1;
+        }
+
+        .header-controls {
+          order: 3;
+          width: 100%;
+          justify-content: flex-start;
         }
 
         .inputs-section {
@@ -545,7 +599,19 @@
             cvx
           </text>
         </svg>
-        <h1>Participation Planner</h1>
+        <h1 id="page-title">Participation Planner</h1>
+        <div class="header-controls">
+          <select id="language-selector" class="selector">
+            <option value="en">English</option>
+            <option value="de">Deutsch</option>
+            <option value="fr">Français</option>
+            <option value="it">Italiano</option>
+          </select>
+          <select id="currency-selector" class="selector">
+            <option value="CHF">CHF</option>
+            <option value="USD">USD</option>
+          </select>
+        </div>
       </div>
 
       <div class="inputs-section">
@@ -562,13 +628,7 @@
           </div>
           <div class="input-group">
             <label for="target">Target Participants</label>
-            <input
-              type="number"
-              id="target"
-              value="2000"
-              min="10"
-              step="10"
-            />
+            <input type="number" id="target" value="2000" min="10" step="10" />
           </div>
           <div class="input-group">
             <label for="budget">Budget (CHF)</label>
@@ -604,12 +664,15 @@
       </div>
 
       <div class="tactics-grid" id="tactics-grid"></div>
-      
+
       <!-- Contact Form Section -->
       <div class="contact-section">
         <h2>Need Help Planning Your Strategy?</h2>
-        <p class="contact-intro">Connect with our experts to develop an effective outreach plan for your participatory process.</p>
-        
+        <p class="contact-intro">
+          Connect with our experts to develop an effective outreach plan for
+          your participatory process.
+        </p>
+
         <form class="contact-form" id="contact-form">
           <div class="form-row">
             <div class="form-group">
@@ -621,7 +684,7 @@
               <input type="email" id="contact-email" required />
             </div>
           </div>
-          
+
           <div class="form-row">
             <div class="form-group">
               <label for="contact-organization">Organization</label>
@@ -632,16 +695,21 @@
               <input type="tel" id="contact-phone" />
             </div>
           </div>
-          
+
           <div class="form-group">
             <label for="contact-details">Project Details *</label>
-            <textarea id="contact-details" rows="5" required placeholder="Tell us about your participatory process, goals, timeline, and any specific challenges..."></textarea>
+            <textarea
+              id="contact-details"
+              rows="5"
+              required
+              placeholder="Tell us about your participatory process, goals, timeline, and any specific challenges..."
+            ></textarea>
           </div>
-          
+
           <button type="submit" class="submit-button">Send Message</button>
         </form>
       </div>
-      
+
       <!-- Method Details Modal -->
       <div id="method-modal" class="modal">
         <div class="modal-content">
@@ -653,6 +721,254 @@
     </div>
 
     <script>
+      // Translations
+      const translations = {
+        en: {
+          pageTitle: "Participation Planner",
+          populationSize: "Population Size",
+          targetParticipants: "Target Participants",
+          budget: "Budget",
+          totalReach: "Total Reach",
+          totalCost: "Total Cost",
+          budgetStatus: "Budget Status",
+          optimizeButton: "Optimize Outreach",
+          reach: "Reach",
+          participants: "Participants",
+          rate: "Rate",
+          free: "Free",
+          contactHeading: "Need Help Planning Your Strategy?",
+          contactIntro:
+            "Connect with our experts to develop an effective outreach plan for your participatory process.",
+          contactName: "Name",
+          contactEmail: "Email",
+          contactOrganization: "Organization",
+          contactPhone: "Phone",
+          contactDetails: "Project Details",
+          contactDetailsPlaceholder:
+            "Tell us about your participatory process, goals, timeline, and any specific challenges...",
+          sendMessage: "Send Message",
+          required: "*",
+          modalClose: "×",
+          effectiveness: "Effectiveness",
+          representation: "Representation",
+          costAnalysis: "Cost Analysis",
+          bestPractices: "Best Practices",
+          emailSubject: "Participatory Process Consultation Request",
+          emailGreeting: "Hi civix team!",
+          emailBody1:
+            "My name is {name} from {organization}. I am hoping to get {participants} participants in my participatory process. My population is {population} and my budget is {budget}.",
+          emailBody2: "Here are more details of my project:",
+          emailBody3: "When are you available to meet?",
+          emailSignoff: "Best,",
+          tacticNewsletter: "Newsletter",
+          tacticMail: "Mail",
+          tacticCanvass: "Canvass",
+          tacticReferrals: "Referrals",
+          tacticText: "Text",
+          tacticSocial: "Social Media",
+          descNewsletter:
+            "Email newsletters through city communications and organizational mailing lists.",
+          descMail:
+            "Direct mail campaigns sending informational flyers to residents.",
+          descCanvass:
+            "Face-to-face outreach at community events, block parties, and door-to-door visits by volunteers.",
+          descReferrals:
+            "Friend-to-friend referrals where participants invite others through the registration system.",
+          descText: "Text message campaigns to registered voter lists.",
+          descSocial:
+            "Digital advertising and social media campaigns across multiple platforms.",
+          clickForDetails: "Click for details",
+        },
+        de: {
+          pageTitle: "Partizipationsplaner",
+          populationSize: "Bevölkerungsgröße",
+          targetParticipants: "Ziel-Teilnehmerzahl",
+          budget: "Budget",
+          totalReach: "Gesamtreichweite",
+          totalCost: "Gesamtkosten",
+          budgetStatus: "Budgetstatus",
+          optimizeButton: "Outreach Optimieren",
+          reach: "Reichweite",
+          participants: "Teilnehmer",
+          rate: "Quote",
+          free: "Kostenlos",
+          contactHeading:
+            "Benötigen Sie Hilfe bei der Planung Ihrer Strategie?",
+          contactIntro:
+            "Verbinden Sie sich mit unseren Experten, um einen effektiven Outreach-Plan für Ihren partizipativen Prozess zu entwickeln.",
+          contactName: "Name",
+          contactEmail: "E-Mail",
+          contactOrganization: "Organisation",
+          contactPhone: "Telefon",
+          contactDetails: "Projektdetails",
+          contactDetailsPlaceholder:
+            "Erzählen Sie uns von Ihrem partizipativen Prozess, Zielen, Zeitplan und spezifischen Herausforderungen...",
+          sendMessage: "Nachricht Senden",
+          required: "*",
+          modalClose: "×",
+          effectiveness: "Wirksamkeit",
+          representation: "Repräsentation",
+          costAnalysis: "Kostenanalyse",
+          bestPractices: "Best Practices",
+          emailSubject: "Anfrage zur Beratung für partizipativen Prozess",
+          emailGreeting: "Hallo civix Team!",
+          emailBody1:
+            "Mein Name ist {name} von {organization}. Ich hoffe, {participants} Teilnehmer für meinen partizipativen Prozess zu gewinnen. Meine Bevölkerung beträgt {population} und mein Budget ist {budget}.",
+          emailBody2: "Hier sind weitere Details zu meinem Projekt:",
+          emailBody3: "Wann sind Sie verfügbar für ein Treffen?",
+          emailSignoff: "Mit freundlichen Grüßen,",
+          tacticNewsletter: "Newsletter",
+          tacticMail: "Briefpost",
+          tacticCanvass: "Haustürwahlkampf",
+          tacticReferrals: "Empfehlungen",
+          tacticText: "SMS",
+          tacticSocial: "Soziale Medien",
+          descNewsletter:
+            "E-Mail-Newsletter über städtische Kommunikation und Organisations-Mailinglisten.",
+          descMail:
+            "Direkt-Mail-Kampagnen, die Informationsflyer an Bewohner versenden.",
+          descCanvass:
+            "Persönliche Ansprache bei Gemeindeveranstaltungen, Straßenfesten und Haustürbesuchen durch Freiwillige.",
+          descReferrals:
+            "Freund-zu-Freund-Empfehlungen, bei denen Teilnehmer andere über das Registrierungssystem einladen.",
+          descText: "SMS-Kampagnen an registrierte Wählerlisten.",
+          descSocial:
+            "Digitale Werbung und Social-Media-Kampagnen auf mehreren Plattformen.",
+          clickForDetails: "Für Details klicken",
+        },
+        fr: {
+          pageTitle: "Planificateur de Participation",
+          populationSize: "Taille de la Population",
+          targetParticipants: "Participants Ciblés",
+          budget: "Budget",
+          totalReach: "Portée Totale",
+          totalCost: "Coût Total",
+          budgetStatus: "État du Budget",
+          optimizeButton: "Optimiser la Sensibilisation",
+          reach: "Portée",
+          participants: "Participants",
+          rate: "Taux",
+          free: "Gratuit",
+          contactHeading: "Besoin d'Aide pour Planifier Votre Stratégie?",
+          contactIntro:
+            "Connectez-vous avec nos experts pour développer un plan de sensibilisation efficace pour votre processus participatif.",
+          contactName: "Nom",
+          contactEmail: "Email",
+          contactOrganization: "Organisation",
+          contactPhone: "Téléphone",
+          contactDetails: "Détails du Projet",
+          contactDetailsPlaceholder:
+            "Parlez-nous de votre processus participatif, objectifs, calendrier et défis spécifiques...",
+          sendMessage: "Envoyer le Message",
+          required: "*",
+          modalClose: "×",
+          effectiveness: "Efficacité",
+          representation: "Représentation",
+          costAnalysis: "Analyse des Coûts",
+          bestPractices: "Meilleures Pratiques",
+          emailSubject: "Demande de Consultation pour Processus Participatif",
+          emailGreeting: "Bonjour l'équipe civix!",
+          emailBody1:
+            "Je m'appelle {name} de {organization}. J'espère obtenir {participants} participants dans mon processus participatif. Ma population est de {population} et mon budget est de {budget}.",
+          emailBody2: "Voici plus de détails sur mon projet:",
+          emailBody3: "Quand êtes-vous disponible pour une réunion?",
+          emailSignoff: "Cordialement,",
+          tacticNewsletter: "Newsletter",
+          tacticMail: "Courrier",
+          tacticCanvass: "Porte-à-Porte",
+          tacticReferrals: "Références",
+          tacticText: "SMS",
+          tacticSocial: "Médias Sociaux",
+          descNewsletter:
+            "Newsletters par email via les communications municipales et les listes de diffusion d'organisations.",
+          descMail:
+            "Campagnes de courrier direct envoyant des dépliants d'information aux résidents.",
+          descCanvass:
+            "Sensibilisation en face à face lors d'événements communautaires, de fêtes de quartier et de visites de porte à porte par des bénévoles.",
+          descReferrals:
+            "Références d'ami à ami où les participants invitent d'autres personnes via le système d'inscription.",
+          descText:
+            "Campagnes de messages texte aux listes d'électeurs inscrits.",
+          descSocial:
+            "Publicité numérique et campagnes sur les réseaux sociaux sur plusieurs plateformes.",
+          clickForDetails: "Cliquez pour les détails",
+        },
+        it: {
+          pageTitle: "Pianificatore di Partecipazione",
+          populationSize: "Dimensione della Popolazione",
+          targetParticipants: "Partecipanti Obiettivo",
+          budget: "Budget",
+          totalReach: "Portata Totale",
+          totalCost: "Costo Totale",
+          budgetStatus: "Stato del Budget",
+          optimizeButton: "Ottimizza Sensibilizzazione",
+          reach: "Portata",
+          participants: "Partecipanti",
+          rate: "Tasso",
+          free: "Gratuito",
+          contactHeading:
+            "Hai Bisogno di Aiuto per Pianificare la Tua Strategia?",
+          contactIntro:
+            "Connettiti con i nostri esperti per sviluppare un piano di sensibilizzazione efficace per il tuo processo partecipativo.",
+          contactName: "Nome",
+          contactEmail: "Email",
+          contactOrganization: "Organizzazione",
+          contactPhone: "Telefono",
+          contactDetails: "Dettagli del Progetto",
+          contactDetailsPlaceholder:
+            "Raccontaci del tuo processo partecipativo, obiettivi, tempistiche e sfide specifiche...",
+          sendMessage: "Invia Messaggio",
+          required: "*",
+          modalClose: "×",
+          effectiveness: "Efficacia",
+          representation: "Rappresentazione",
+          costAnalysis: "Analisi dei Costi",
+          bestPractices: "Migliori Pratiche",
+          emailSubject: "Richiesta di Consulenza per Processo Partecipativo",
+          emailGreeting: "Ciao team civix!",
+          emailBody1:
+            "Mi chiamo {name} di {organization}. Spero di ottenere {participants} partecipanti nel mio processo partecipativo. La mia popolazione è di {population} e il mio budget è di {budget}.",
+          emailBody2: "Ecco maggiori dettagli sul mio progetto:",
+          emailBody3: "Quando siete disponibili per un incontro?",
+          emailSignoff: "Cordiali saluti,",
+          tacticNewsletter: "Newsletter",
+          tacticMail: "Posta",
+          tacticCanvass: "Porta a Porta",
+          tacticReferrals: "Referenze",
+          tacticText: "SMS",
+          tacticSocial: "Social Media",
+          descNewsletter:
+            "Newsletter via email attraverso comunicazioni comunali e liste di distribuzione organizzative.",
+          descMail:
+            "Campagne di posta diretta che inviano volantini informativi ai residenti.",
+          descCanvass:
+            "Sensibilizzazione faccia a faccia in eventi comunitari, feste di quartiere e visite porta a porta da parte di volontari.",
+          descReferrals:
+            "Referenze da amico ad amico dove i partecipanti invitano altri attraverso il sistema di registrazione.",
+          descText:
+            "Campagne di messaggi di testo alle liste di elettori registrati.",
+          descSocial:
+            "Pubblicità digitale e campagne sui social media su più piattaforme.",
+          clickForDetails: "Clicca per i dettagli",
+        },
+      };
+
+      // Currency settings
+      const currencySymbols = {
+        CHF: "CHF",
+        USD: "$",
+      };
+
+      // State management
+      let state = {
+        population: 100000,
+        target: 2000,
+        budget: 50000,
+        allocations: {},
+        language: "en",
+        currency: "CHF",
+      };
+
       // Outreach tactics data based on the provided table
       // Using conversion rates and costs from the data
       const tactics = [
@@ -663,17 +979,20 @@
           voters: 1134,
           cost: 500, // Low cost estimated
           conversionRate: 1134 / 90000,
-          description: "Email newsletters through city communications and organizational mailing lists.",
+          description:
+            "Email newsletters through city communications and organizational mailing lists.",
           details: {
-            effectiveness: "E-news was the 3rd most effective outreach method for participation, recruiting 11.4% of signups and 17.4% of voters.",
-            representation: "E-news tended to recruit community members who were white, had graduate degrees, and incomes over $200K compared to other methods.",
+            effectiveness:
+              "E-news was the 3rd most effective outreach method for participation, recruiting 11.4% of signups and 17.4% of voters.",
+            representation:
+              "E-news tended to recruit community members who were white, had graduate degrees, and incomes over $200K compared to other methods.",
             cost: "E-news provided a 'free' outreach method. The main overhead cost is for the city communications staff and CRM.",
             bestPractices: [
               "Reach of 90,000 subscribers with approximately 50% open rate",
               "Most effective when PB is the primary focus of the newsletter",
-              "Cannot be significantly increased as announcements are limited to once per week"
-            ]
-          }
+              "Cannot be significantly increased as announcements are limited to once per week",
+            ],
+          },
         },
         {
           name: "Mail",
@@ -682,17 +1001,20 @@
           voters: 648,
           cost: 18000,
           conversionRate: 648 / 35000,
-          description: "Direct mail campaigns sending informational flyers to residents.",
+          description:
+            "Direct mail campaigns sending informational flyers to residents.",
           details: {
-            effectiveness: "Direct mail was 4th in effectiveness for participation, recruiting 6.6% of signups and 9.9% of voters.",
-            representation: "Direct mail tended to recruit community members who were white, had graduate degrees, and incomes over $200K, similar to e-news.",
+            effectiveness:
+              "Direct mail was 4th in effectiveness for participation, recruiting 6.6% of signups and 9.9% of voters.",
+            representation:
+              "Direct mail tended to recruit community members who were white, had graduate degrees, and incomes over $200K, similar to e-news.",
             cost: "Direct mail averaged CHF 27.78 per voter. In Evanston, this included design ($2,799), printing ($1,022), and postage ($6,712) for 35,000 residences.",
             bestPractices: [
               "Effective for reaching established residents with stable addresses",
               "More expensive than digital outreach methods",
-              "Can be combined with other tactics for better results"
-            ]
-          }
+              "Can be combined with other tactics for better results",
+            ],
+          },
         },
         {
           name: "Canvass",
@@ -701,19 +1023,22 @@
           voters: 1384,
           cost: 13315,
           conversionRate: 1384 / 13000,
-          description: "Face-to-face outreach at community events, block parties, and door-to-door visits by volunteers.",
+          description:
+            "Face-to-face outreach at community events, block parties, and door-to-door visits by volunteers.",
           details: {
-            effectiveness: "Canvassing was BY FAR the most effective outreach method, recruiting 32.9% of signups and 21.2% of voters. Over 170 face-to-face canvassing events were conducted over 14 months.",
-            representation: "Canvassing was the most effective method for reaching traditionally marginalized communities: 17.2% Black/African American, 10.2% Hispanic, and 8.8% Asian participants. It was also best for reaching people with lower educational attainment and lower income levels.",
+            effectiveness:
+              "Canvassing was BY FAR the most effective outreach method, recruiting 32.9% of signups and 21.2% of voters. Over 170 face-to-face canvassing events were conducted over 14 months.",
+            representation:
+              "Canvassing was the most effective method for reaching traditionally marginalized communities: 17.2% Black/African American, 10.2% Hispanic, and 8.8% Asian participants. It was also best for reaching people with lower educational attainment and lower income levels.",
             cost: "While labor intensive, volunteers donated over CHF 13,300 worth of time (600+ hours at CHF 20/hour). Even if volunteers were paid, canvassing would be cost-effective at CHF 9.62 per vote.",
             bestPractices: [
               "54 trained outreach volunteers conducted nearly 3 face-to-face sessions per week",
               "Average of 6.9 signups per hour per canvasser",
               "Training and volunteer coordination is essential",
               "Most effective when combined with food, events, and community partnerships",
-              "Based on relational organizing techniques"
-            ]
-          }
+              "Based on relational organizing techniques",
+            ],
+          },
         },
         {
           name: "Referrals",
@@ -722,17 +1047,20 @@
           voters: 903,
           cost: 0,
           conversionRate: 903 / 5000,
-          description: "Friend-to-friend referrals where participants invite others through the registration system.",
+          description:
+            "Friend-to-friend referrals where participants invite others through the registration system.",
           details: {
-            effectiveness: "Referrals were the 2nd most effective method, recruiting 21.6% of signups and 13.8% of voters. Over 2,200 people were referred, with 700+ registering and 500+ voting.",
-            representation: "Referrals fell between canvassing and e-news in recruiting diverse community members by race, education, and income.",
+            effectiveness:
+              "Referrals were the 2nd most effective method, recruiting 21.6% of signups and 13.8% of voters. Over 2,200 people were referred, with 700+ registering and 500+ voting.",
+            representation:
+              "Referrals fell between canvassing and e-news in recruiting diverse community members by race, education, and income.",
             cost: "Referrals provided a nearly 'free' outreach method. The main overhead cost was staff with moderate IT skills to setup forms, CRM, and email blasts.",
             bestPractices: [
               "When participants register online, ask them to provide emails of others who might participate",
               "Automate follow-up emails to referred contacts",
-              "Approximately 1 in 3 referred people registered to participate"
-            ]
-          }
+              "Approximately 1 in 3 referred people registered to participate",
+            ],
+          },
         },
         {
           name: "Text",
@@ -743,15 +1071,17 @@
           conversionRate: 143 / 30000,
           description: "Text message campaigns to registered voter lists.",
           details: {
-            effectiveness: "Text blasts recruited 1.8% of signups and 2.2% of voters. In Evanston, 2 text blasts were sent to 31,488 numbers on the citywide registered voters list.",
-            representation: "Similar to direct mail, text blasts tended to recruit white participants with graduate degrees and higher income.",
+            effectiveness:
+              "Text blasts recruited 1.8% of signups and 2.2% of voters. In Evanston, 2 text blasts were sent to 31,488 numbers on the citywide registered voters list.",
+            representation:
+              "Similar to direct mail, text blasts tended to recruit white participants with graduate degrees and higher income.",
             cost: "Text blasts averaged CHF 13.98 per voter. Total cost was CHF 2,000 for the campaign.",
             bestPractices: [
               "More effective for reminders to people already in the database",
               "Limited impact when used for broad outreach to cold contacts",
-              "Consider combining with other personalized outreach methods"
-            ]
-          }
+              "Consider combining with other personalized outreach methods",
+            ],
+          },
         },
         {
           name: "Social Media",
@@ -760,33 +1090,119 @@
           voters: 93,
           cost: 25000,
           conversionRate: 93 / 12500,
-          description: "Digital advertising and social media campaigns across multiple platforms.",
+          description:
+            "Digital advertising and social media campaigns across multiple platforms.",
           details: {
-            effectiveness: "Digital marketing had negligible impact, accounting for only 1.1% of signups and was the least effective major outreach method.",
-            representation: "Social media reached primarily already-engaged residents rather than underrepresented communities.",
+            effectiveness:
+              "Digital marketing had negligible impact, accounting for only 1.1% of signups and was the least effective major outreach method.",
+            representation:
+              "Social media reached primarily already-engaged residents rather than underrepresented communities.",
             cost: "The most expensive method at CHF 268.82 per voter. Total spend: CHF 25,000 on ad buys across Facebook, Google, Instagram, LinkedIn, NextDoor, and YouTube (not including video production and consulting fees).",
             bestPractices: [
               "Track 'impressions' carefully - they can be misleading",
               "Consider reallocating budget to face-to-face outreach",
               "May be more effective for awareness than for driving action",
-              "Organic social media posts by community members may be more effective than paid ads"
-            ]
-          }
+              "Organic social media posts by community members may be more effective than paid ads",
+            ],
+          },
         },
       ];
-
-      // State management
-      let state = {
-        population: 100000,
-        target: 2000,
-        budget: 50000,
-        allocations: {},
-      };
 
       // Initialize allocations
       tactics.forEach((tactic) => {
         state.allocations[tactic.key] = 0;
       });
+
+      // Translation helper
+      function t(key) {
+        return translations[state.language][key] || key;
+      }
+
+      // Currency formatter
+      function formatCurrency(amount) {
+        const symbol = currencySymbols[state.currency];
+        const formattedAmount = Math.round(amount).toLocaleString();
+        return state.currency === "USD"
+          ? `${symbol}${formattedAmount}`
+          : `${symbol} ${formattedAmount}`;
+      }
+
+      // Update all text on the page
+      function updatePageText() {
+        // Header
+        document.getElementById("page-title").textContent = t("pageTitle");
+
+        // Input labels
+        document.querySelector('label[for="population"]').textContent =
+          t("populationSize");
+        document.querySelector('label[for="target"]').textContent =
+          t("targetParticipants");
+        document.querySelector('label[for="budget"]').textContent =
+          t("budget") + " (" + state.currency + ")";
+
+        // Summary labels
+        document.querySelectorAll(".summary-label")[0].textContent =
+          t("totalReach");
+        document.querySelectorAll(".summary-label")[1].textContent =
+          t("totalCost");
+        document.querySelectorAll(".summary-label")[2].textContent =
+          t("budgetStatus");
+
+        // Optimize button
+        document.getElementById("optimize-btn").textContent =
+          t("optimizeButton");
+
+        // Contact section
+        document.querySelector(".contact-section h2").textContent =
+          t("contactHeading");
+        document.querySelector(".contact-intro").textContent =
+          t("contactIntro");
+        document.querySelector('label[for="contact-name"]').textContent =
+          t("contactName") + " " + t("required");
+        document.querySelector('label[for="contact-email"]').textContent =
+          t("contactEmail") + " " + t("required");
+        document.querySelector(
+          'label[for="contact-organization"]',
+        ).textContent = t("contactOrganization");
+        document.querySelector('label[for="contact-phone"]').textContent =
+          t("contactPhone");
+        document.querySelector('label[for="contact-details"]').textContent =
+          t("contactDetails") + " " + t("required");
+        document.getElementById("contact-details").placeholder = t(
+          "contactDetailsPlaceholder",
+        );
+        document.querySelector(".submit-button").textContent = t("sendMessage");
+
+        // Re-render tactics to update their text
+        renderTactics();
+        updateSummary();
+      }
+
+      // Get tactic name in current language
+      function getTacticName(key) {
+        const tacticKeys = {
+          newsletter: "tacticNewsletter",
+          mail: "tacticMail",
+          canvass: "tacticCanvass",
+          referrals: "tacticReferrals",
+          text: "tacticText",
+          social: "tacticSocial",
+        };
+        return t(tacticKeys[key]);
+      }
+
+      // Get tactic description in current language
+      function getTacticDesc(key) {
+        const descKeys = {
+          newsletter: "descNewsletter",
+          mail: "descMail",
+          canvass: "descCanvass",
+          referrals: "descReferrals",
+          text: "descText",
+          social: "descSocial",
+        };
+        return t(descKeys[key]);
+      }
 
       function handleSliderChange(e) {
         const tacticKey = e.target.dataset.tactic;
@@ -797,13 +1213,11 @@
       }
 
       function updateInputListeners() {
-        document
-          .getElementById("population")
-          .addEventListener("input", (e) => {
-            state.population = parseInt(e.target.value) || 0;
-            renderTactics();
-            updateSummary();
-          });
+        document.getElementById("population").addEventListener("input", (e) => {
+          state.population = parseInt(e.target.value) || 0;
+          renderTactics();
+          updateSummary();
+        });
 
         document.getElementById("target").addEventListener("input", (e) => {
           state.target = parseInt(e.target.value) || 0;
@@ -828,18 +1242,17 @@
           totalCost += cost;
         });
 
-        const budgetPercentage = state.budget > 0 
-          ? Math.round((totalCost / state.budget) * 100) 
-          : 0;
+        const budgetPercentage =
+          state.budget > 0 ? Math.round((totalCost / state.budget) * 100) : 0;
 
         document.getElementById("total-reach").textContent =
           Math.round(totalParticipants).toLocaleString();
         document.getElementById("total-cost").textContent =
-          "CHF " + Math.round(totalCost).toLocaleString();
-        
+          formatCurrency(totalCost);
+
         const budgetStatus = document.getElementById("budget-status");
         budgetStatus.textContent = budgetPercentage + "%";
-        
+
         // Color code budget status
         if (budgetPercentage > 100) {
           budgetStatus.style.color = "#E31837";
@@ -854,38 +1267,42 @@
       function optimizeOutreach() {
         const target = state.target;
         const budget = state.budget;
-        
+
         if (target <= 0) {
           alert("Please enter a target number of participants.");
           return;
         }
-        
+
         // Sort tactics by cost-effectiveness (participants per CHF)
         const sortedTactics = [...tactics].sort((a, b) => {
           const effA = a.conversionRate / (a.cost / a.reach);
           const effB = b.conversionRate / (b.cost / b.reach);
           return effB - effA; // Higher is better
         });
-        
+
         // Reset allocations
-        tactics.forEach(tactic => {
+        tactics.forEach((tactic) => {
           state.allocations[tactic.key] = 0;
         });
-        
+
         let remainingTarget = target;
         let remainingBudget = budget;
-        
+
         // Allocate to tactics in order of cost-effectiveness
         for (const tactic of sortedTactics) {
           if (remainingTarget <= 0) break;
-          
+
           // Calculate how much reach we need for this tactic
           const neededParticipants = Math.min(remainingTarget, target * 0.4); // Cap at 40% from single source
           const neededReach = neededParticipants / tactic.conversionRate;
-          const cappedReach = Math.min(neededReach, tactic.reach, state.population * 0.5);
-          
+          const cappedReach = Math.min(
+            neededReach,
+            tactic.reach,
+            state.population * 0.5,
+          );
+
           const cost = cappedReach * (tactic.cost / tactic.reach);
-          
+
           if (cost <= remainingBudget || tactic.cost === 0) {
             state.allocations[tactic.key] = Math.round(cappedReach);
             const actualParticipants = cappedReach * tactic.conversionRate;
@@ -893,112 +1310,120 @@
             remainingBudget -= cost;
           }
         }
-        
+
         renderTactics();
         updateSummary();
       }
-      
+
       // Show method details modal
       function showMethodDetails(tactic) {
         const modal = document.getElementById("method-modal");
         const title = document.getElementById("modal-title");
         const body = document.getElementById("modal-body");
-        
-        title.textContent = tactic.name;
-        
+
+        title.textContent = getTacticName(tactic.key);
+
         if (tactic.details) {
           body.innerHTML = `
-            <p>${tactic.description}</p>
+            <p>${getTacticDesc(tactic.key)}</p>
             
-            <div class="method-stat">Reach: ${tactic.reach.toLocaleString()}</div>
-            <div class="method-stat">Conversion: ${(tactic.conversionRate * 100).toFixed(2)}%</div>
-            <div class="method-stat">Cost: ${tactic.cost > 0 ? 'CHF ' + tactic.cost.toLocaleString() : 'Free'}</div>
+            <div class="method-stat">${t("reach")}: ${tactic.reach.toLocaleString()}</div>
+            <div class="method-stat">${t("rate")}: ${(tactic.conversionRate * 100).toFixed(2)}%</div>
+            <div class="method-stat">${t("totalCost")}: ${tactic.cost > 0 ? formatCurrency(tactic.cost) : t("free")}</div>
             
-            <h3>Effectiveness</h3>
+            <h3>${t("effectiveness")}</h3>
             <p>${tactic.details.effectiveness}</p>
             
-            <h3>Representation</h3>
+            <h3>${t("representation")}</h3>
             <p>${tactic.details.representation}</p>
             
-            <h3>Cost Analysis</h3>
+            <h3>${t("costAnalysis")}</h3>
             <p>${tactic.details.cost}</p>
             
-            <h3>Best Practices</h3>
+            <h3>${t("bestPractices")}</h3>
             <ul>
-              ${tactic.details.bestPractices.map(practice => `<li>${practice}</li>`).join('')}
+              ${tactic.details.bestPractices.map((practice) => `<li>${practice}</li>`).join("")}
             </ul>
           `;
         } else {
-          body.innerHTML = `<p>${tactic.description}</p>`;
+          body.innerHTML = `<p>${getTacticDesc(tactic.key)}</p>`;
         }
-        
+
         modal.style.display = "block";
       }
-      
+
       // Modal close handlers
       function setupModal() {
         const modal = document.getElementById("method-modal");
         const closeBtn = document.querySelector(".modal-close");
-        
-        closeBtn.onclick = function() {
+
+        closeBtn.onclick = function () {
           modal.style.display = "none";
-        }
-        
-        window.onclick = function(event) {
+        };
+
+        window.onclick = function (event) {
           if (event.target == modal) {
             modal.style.display = "none";
           }
-        }
+        };
       }
-      
+
       // Contact form handler
       function setupContactForm() {
         const form = document.getElementById("contact-form");
-        
-        form.addEventListener("submit", function(e) {
+
+        form.addEventListener("submit", function (e) {
           e.preventDefault();
-          
+
           const name = document.getElementById("contact-name").value;
           const email = document.getElementById("contact-email").value;
-          const organization = document.getElementById("contact-organization").value || "my organization";
+          const organization =
+            document.getElementById("contact-organization").value ||
+            (state.language === "de"
+              ? "meiner Organisation"
+              : state.language === "fr"
+                ? "mon organisation"
+                : state.language === "it"
+                  ? "la mia organizzazione"
+                  : "my organization");
           const phone = document.getElementById("contact-phone").value;
           const details = document.getElementById("contact-details").value;
-          
+
           // Get current state values
           const participants = state.target.toLocaleString();
           const population = state.population.toLocaleString();
-          const budget = "CHF " + state.budget.toLocaleString();
-          
-          // Create email body
-          const emailBody = `Hi civix team!
+          const budget = formatCurrency(state.budget);
 
-My name is ${name} from ${organization}. I am hoping to get ${participants} participants in my participatory process. My population is ${population} and my budget is ${budget}.
+          // Create email body with translations
+          const emailBody = `${t("emailGreeting")}
 
-Here are more details of my project:
+${t("emailBody1").replace("{name}", name).replace("{organization}", organization).replace("{participants}", participants).replace("{population}", population).replace("{budget}", budget)}
+
+${t("emailBody2")}
 
 ${details}
 
-When are you available to meet?
+${t("emailBody3")}
 
-Best,
+${t("emailSignoff")}
 ${name}`;
-          
+
           // Create email subject
-          const emailSubject = `Participatory Process Consultation Request - ${name}`;
-          
+          const emailSubject = `${t("emailSubject")} - ${name}`;
+
           // Create mailto link
           const mailtoLink = `mailto:gumbelin+civix@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-          
+
           // Open email client
           window.location.href = mailtoLink;
-          
+
           // Reset form after a short delay
           setTimeout(() => {
             form.reset();
           }, 500);
         });
       }
-      
+
       // Update renderTactics to add click handler
       function renderTactics() {
         const grid = document.getElementById("tactics-grid");
@@ -1017,8 +1442,8 @@ ${name}`;
 
           card.innerHTML = `
             <div class="tactic-header">
-              <div class="tactic-name">${tactic.name}</div>
-              <div class="tactic-cost">${cost > 0 ? "CHF " + cost.toLocaleString() : "Free"}</div>
+              <div class="tactic-name">${getTacticName(tactic.key)}</div>
+              <div class="tactic-cost">${cost > 0 ? formatCurrency(cost) : t("free")}</div>
             </div>
             <div class="dial-container">
               <div class="dial-background">
@@ -1036,17 +1461,20 @@ ${name}`;
             </div>
             <div class="tactic-stats">
               <div class="stat">
-                <div class="stat-label">Reach</div>
+                <div class="stat-label">${t("reach")}</div>
                 <div class="stat-value">${allocation.toLocaleString()}</div>
               </div>
               <div class="stat">
-                <div class="stat-label">Participants</div>
+                <div class="stat-label">${t("participants")}</div>
                 <div class="stat-value">${participants.toLocaleString()}</div>
               </div>
               <div class="stat">
-                <div class="stat-label">Rate</div>
+                <div class="stat-label">${t("rate")}</div>
                 <div class="stat-value">${(tactic.conversionRate * 100).toFixed(1)}%</div>
               </div>
+            </div>
+            <div class="clickable-hint">
+              <span>${t("clickForDetails")}</span>
             </div>
           `;
 
@@ -1059,7 +1487,7 @@ ${name}`;
           slider.addEventListener("input", handleSliderChange);
         });
       }
-      
+
       // Update init to include new setup functions
       function init() {
         renderTactics();
@@ -1067,9 +1495,27 @@ ${name}`;
         updateSummary();
         setupModal();
         setupContactForm();
-        
+
         // Add optimize button listener
-        document.getElementById("optimize-btn").addEventListener("click", optimizeOutreach);
+        document
+          .getElementById("optimize-btn")
+          .addEventListener("click", optimizeOutreach);
+
+        // Add language selector listener
+        document
+          .getElementById("language-selector")
+          .addEventListener("change", function (e) {
+            state.language = e.target.value;
+            updatePageText();
+          });
+
+        // Add currency selector listener
+        document
+          .getElementById("currency-selector")
+          .addEventListener("change", function (e) {
+            state.currency = e.target.value;
+            updatePageText();
+          });
       }
 
       // Initialize on load
